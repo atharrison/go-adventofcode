@@ -20,7 +20,6 @@ func ExecuteDay7(inputfile string) {
 
 	wires := ProcessGates(gates)
 	if true {
-
 		for wirename, wire := range wires {
 			fmt.Printf("Wire %v:\t%v\tSource: %v\n", wirename, wire.Signal, wire.SourceGate)
 		}
@@ -29,6 +28,29 @@ func ExecuteDay7(inputfile string) {
 		wire := wires["a"]
 		fmt.Printf("\n--->Wire %v:\t%v\tSource: %v\n", wire.Identifier, wire.Signal, wire.SourceGate)
 	}
+
+	// Part 2
+	signalA := wires["a"].Signal
+
+	//Reset Wires:
+	for _, wire := range wires {
+		wire.SignalSet = false
+	}
+	// Set Wire 'b' to Part1 value of 'a':
+	wires["b"].Signal = signalA
+	wires["b"].SignalSet = true
+
+	//Re-process:
+	wires = ProcessWires(gates, wires)
+	for wirename, wire := range wires {
+		fmt.Printf("Wire %v:\t%v\tSource: %v\n", wirename, wire.Signal, wire.SourceGate)
+	}
+
+	if wires["a"] != nil {
+		wire := wires["a"]
+		fmt.Printf("\n-PART2-->Wire %v:\t%v\tSource: %v\n", wire.Identifier, wire.Signal, wire.SourceGate)
+	}
+
 }
 
 func ProcessGates(gates []*LogicGate) map[string]*LogicWire {
@@ -48,6 +70,10 @@ func ProcessGates(gates []*LogicGate) map[string]*LogicWire {
 		wires[gate.OutputWire].SourceGate = gate.Id // Assign Source Gate for Wire
 	}
 
+	return ProcessWires(gates, wires)
+}
+
+func ProcessWires(gates []*LogicGate, wires map[string]*LogicWire) map[string]*LogicWire {
 OuterLoop:
 	for {
 		allSignalsSet := true
