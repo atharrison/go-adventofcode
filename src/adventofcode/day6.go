@@ -16,7 +16,7 @@ func ExecuteDay6(inputfile string) {
 }
 
 func CalculateLightsOn(lines []string) {
-	instructions := make([]*Instruction, len(lines))
+	instructions := make([]*LightGridInstruction, len(lines))
 	for idx, line := range lines {
 		instructions[idx] = ParseInstruction(line)
 	}
@@ -28,7 +28,7 @@ func CalculateLightsOn(lines []string) {
 }
 
 func CalculateBrightness(lines []string) {
-	instructions := make([]*Instruction, len(lines))
+	instructions := make([]*LightGridInstruction, len(lines))
 	for idx, line := range lines {
 		instructions[idx] = ParseInstruction(line)
 	}
@@ -45,7 +45,7 @@ const FUNC_TOGGLE = 2
 
 const FOUR_NUMBERS_REGEX = "[a-zA-Z ]+ (?P<x1>[0-9]{1,3}),(?P<y1>[0-9]{1,3}) [a-zA-Z ]+ (?P<x2>[0-9]{1,3}),(?P<y2>[0-9]{1,3})"
 
-type Instruction struct {
+type LightGridInstruction struct {
 	Function int
 	X1       int
 	Y1       int
@@ -53,9 +53,9 @@ type Instruction struct {
 	Y2       int
 }
 
-func ParseInstruction(line string) *Instruction {
+func ParseInstruction(line string) *LightGridInstruction {
 
-	instr := &Instruction{}
+	instr := &LightGridInstruction{}
 	if strings.Contains(line, "turn on") {
 		instr.Function = FUNC_ON
 	} else if strings.Contains(line, "turn off") {
@@ -64,7 +64,6 @@ func ParseInstruction(line string) *Instruction {
 		instr.Function = FUNC_TOGGLE
 	}
 
-	//	matchResults := map[string]string{}
 	matcher := regexp.MustCompile(FOUR_NUMBERS_REGEX)
 	names := matcher.SubexpNames()
 	results := matcher.FindAllStringSubmatch(line, -1)[0]
@@ -80,7 +79,7 @@ func ParseInstruction(line string) *Instruction {
 	return instr
 }
 
-func ProcessLightInstructions(instructions []*Instruction, grid [][]bool) {
+func ProcessLightInstructions(instructions []*LightGridInstruction, grid [][]bool) {
 
 	//finish initializing grid:
 	for i := 0; i < len(grid); i++ {
@@ -93,7 +92,7 @@ func ProcessLightInstructions(instructions []*Instruction, grid [][]bool) {
 	}
 }
 
-func ProcessLightBrightnessInstructions(instructions []*Instruction, grid [][]int) {
+func ProcessLightBrightnessInstructions(instructions []*LightGridInstruction, grid [][]int) {
 	//finish initializing grid:
 	for i := 0; i < len(grid); i++ {
 		grid[i] = make([]int, 1000)
@@ -105,7 +104,7 @@ func ProcessLightBrightnessInstructions(instructions []*Instruction, grid [][]in
 	}
 }
 
-func ApplyInstructionToGrid(instr *Instruction, grid [][]bool) {
+func ApplyInstructionToGrid(instr *LightGridInstruction, grid [][]bool) {
 
 	for x := instr.X1; x <= instr.X2; x++ {
 		for y := instr.Y1; y <= instr.Y2; y++ {
@@ -121,7 +120,7 @@ func ApplyInstructionToGrid(instr *Instruction, grid [][]bool) {
 	}
 }
 
-func ApplyBrightnessInstructionToGrid(instr *Instruction, grid [][]int) {
+func ApplyBrightnessInstructionToGrid(instr *LightGridInstruction, grid [][]int) {
 
 	for x := instr.X1; x <= instr.X2; x++ {
 		for y := instr.Y1; y <= instr.Y2; y++ {
