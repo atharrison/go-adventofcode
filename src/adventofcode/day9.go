@@ -46,8 +46,9 @@ func ExecuteDay9(inputfile string) {
 	}
 	//	fmt.Printf("TimeTable:\n%v", timeTable)
 
-	shortest, path := BruteForceWalk(timeTable)
-	fmt.Printf("Shortest: %v via %v", shortest, path)
+	shortest, path, longest, longestPath := BruteForceWalk(timeTable)
+	fmt.Printf("Part 1: Shortest: %v via %v\n", shortest, path)
+	fmt.Printf("Part 2: Longest: %v via %v\n", longest, longestPath)
 
 }
 
@@ -134,10 +135,12 @@ func ParseTownDistancePair(line string) *Edge {
 	}
 }
 
-func BruteForceWalk(timeTable [][]int) (int, []int) {
+func BruteForceWalk(timeTable [][]int) (int, []int, int, []int) {
 
 	shortest := math.MaxInt64
+	longest := 0
 	path := make([]int, 8)
+	longestPath := make([]int, 8)
 
 	count := len(timeTable)
 	for a := 0; a < count; a++ {
@@ -185,6 +188,11 @@ func BruteForceWalk(timeTable [][]int) (int, []int) {
 										path = []int{a, b, c, d, e, f, g}
 										fmt.Printf("New shortest: %v via %v\n", shortest, path)
 									}
+									if distance > longest {
+										longest = distance
+										longestPath = []int{a, b, c, d, e, f, g}
+										fmt.Printf("New longest: %v via %v\n", longest, longestPath)
+									}
 								}
 							}
 						}
@@ -194,5 +202,5 @@ func BruteForceWalk(timeTable [][]int) (int, []int) {
 		}
 	}
 
-	return shortest, path
+	return shortest, path, longest, longestPath
 }
