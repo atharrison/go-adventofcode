@@ -8,7 +8,8 @@ import (
 func ExecuteDay10(input string) {
 
 	// Part1: 40 times
-	for times := 0; times < 40; times++ {
+	// Part2: 50 times
+	for times := 0; times < 50; times++ {
 
 		input = LookAndSay(input)
 	}
