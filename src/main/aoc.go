@@ -43,7 +43,8 @@ func main() {
 	//	adventofcode.ExecuteDay10("1321131112")
 
 	//Day 11
-	adventofcode.ExecuteDay11("hxbxwxba")
+	nextPwd := adventofcode.ExecuteDay11("hxbxwxba")
+	adventofcode.ExecuteDay11(nextPwd) // Part 2
 
 	fmt.Println("\nComplete")
 }

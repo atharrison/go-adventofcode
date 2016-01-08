@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ExecuteDay11(input string) {
+func ExecuteDay11(input string) string {
 
 	fmt.Printf("Starting with %s\n", input)
 	valid := false
@@ -14,6 +14,8 @@ func ExecuteDay11(input string) {
 		valid = CheckPasswordValidity(nextPwd)
 	}
 	fmt.Printf("Next Valid: [%s]\n", nextPwd)
+
+	return nextPwd
 }
 
 func CheckPasswordValidity(password string) bool {
