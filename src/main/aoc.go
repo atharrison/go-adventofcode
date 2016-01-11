@@ -51,7 +51,10 @@ func main() {
 	//	adventofcode.ExecuteDay12Part2("data/day12input.txt")
 
 	//Day 13
-	adventofcode.ExecuteDay13("data/day13input.txt")
+	//	adventofcode.ExecuteDay13("data/day13input.txt")
+
+	//Day 14
+	adventofcode.ExecuteDay14()
 
 	fmt.Println("\nComplete")
 }
