@@ -6,7 +6,19 @@ import (
 	"strings"
 )
 
-func ExecuteDay12(inputfile string) {
+type GeneralObject struct {
+	Item interface{}
+}
+
+func ExecuteDay12Part2(inputfile string) {
+	contents := readFileAsString(inputfile)
+
+	// TODO
+	fmt.Println(contents)
+
+}
+
+func ExecuteDay12Part1(inputfile string) {
 	contents := readFileAsString(inputfile)
 
 	//	fmt.Println(contents)
