@@ -29,6 +29,9 @@ type Reindeer struct {
 	Resting         bool
 	CurrentDuration int
 	CurrentRest     int
+
+	//Part 2
+	Points int
 }
 
 func (r *Reindeer) String() string {
@@ -131,15 +134,40 @@ func ExecuteDay14() {
 		for _, deer := range participants {
 			deer.Tic()
 		}
+
+		// Find leading distance:
+		leaderDistance := 0
+		for idx, deer := range participants {
+			if idx == 0 || leaderDistance < deer.DistanceCovered {
+				leaderDistance = deer.DistanceCovered
+			}
+		}
+
+		// Give point(s)
+		for _, deer := range participants {
+			if deer.DistanceCovered == leaderDistance {
+				deer.Points++
+			}
+		}
 	}
 
 	var winner *Reindeer
+	var pointsWinner *Reindeer
 	for idx, deer := range participants {
-		fmt.Printf("%s Flew %d km\n", deer.Name, deer.DistanceCovered)
+
+		fmt.Printf("%s Flew %d km, gathered %d Points\n", deer.Name, deer.DistanceCovered, deer.Points)
+
+		// Part 1
 		if idx == 0 || winner.DistanceCovered < deer.DistanceCovered {
 			winner = deer
+		}
+
+		// Part 2
+		if idx == 0 || pointsWinner.Points < deer.Points {
+			pointsWinner = deer
 		}
 	}
 
 	fmt.Printf("Winner!!! -> %s flew %d km!\n", winner.Name, winner.DistanceCovered)
+	fmt.Printf("Points Winner!!! -> %s gathered %d points!\n", pointsWinner.Name, pointsWinner.Points)
 }
