@@ -63,13 +63,17 @@ func ProcessSeatingLines(lines []string) []*SeatingHappiness {
 
 func ProcessHappinessByPerson(happiness []*SeatingHappiness) map[string]map[string]int64 {
 
-	happinessMap := make(map[string]map[string]int64, 8) // I know there are 8 people at the table
+	personCount := 9 //Part 2 there are 9
+	happinessMap := make(map[string]map[string]int64, personCount)
+
+	happinessMap["Andrew"] = make(map[string]int64)
 
 	for _, h := range happiness {
 		name, ok := happinessMap[h.Name]
 		if !ok {
 			name = make(map[string]int64)
 			happinessMap[h.Name] = name
+			happinessMap["Andrew"][h.Name] = int64(0)
 		}
 		name[h.Neighbor] = h.Happiness
 	}
@@ -109,17 +113,21 @@ func FindBestSeatingArrangement(personMap map[string]map[string]int64) (int64, [
 							for g := 0; g < len(remainder); g++ {
 								name, remainder := PluckItemFromArray(remainder, g)
 								seatingChart[6] = name
-								seatingChart[7] = remainder[0]
-								//								fmt.Printf("Picker: [%d %d %d %d %d %d %d]\n", a, b, c, d, e, f, g)
+								for g := 0; g < len(remainder); g++ {
+									name, remainder := PluckItemFromArray(remainder, g)
+									// Yep, recursion would have made part 2 EASY
+									seatingChart[7] = name
+									seatingChart[8] = remainder[0]
 
-								total := CalculateHappiness(seatingChart, personMap)
-								if bestTotal < total {
-									copy(bestSeatingChart, seatingChart)
-									bestTotal = total
-									fmt.Printf("[%d] New Best with %v\n", total, seatingChart)
+									total := CalculateHappiness(seatingChart, personMap)
+									if bestTotal < total {
+										copy(bestSeatingChart, seatingChart)
+										bestTotal = total
+										fmt.Printf("[%d] New Best with %v\n", total, seatingChart)
+									}
+									//								time.Sleep(time.Second)
+
 								}
-								//								time.Sleep(time.Second)
-
 							}
 						}
 					}
