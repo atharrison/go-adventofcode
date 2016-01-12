@@ -74,8 +74,9 @@ func ProcessBestCookieScore(ingredients []*Ingredient) int64 {
 					if a+b+c+d != 100 {
 						continue // So much wasted looping
 					}
-					score := CalculateCookieScore(ingredients, a, b, c, d)
-					if score > bestScore {
+					// Part 2 adds calories restriction
+					score, calories := CalculateCookieScore(ingredients, a, b, c, d)
+					if score > bestScore && calories == 500 {
 						fmt.Printf("[%d] New best for %d %d %d %d\n", score, a, b, c, d)
 						bestScore = score
 					}
@@ -87,7 +88,7 @@ func ProcessBestCookieScore(ingredients []*Ingredient) int64 {
 	return bestScore
 }
 
-func CalculateCookieScore(ingredients []*Ingredient, a int, b int, c int, d int) int64 {
+func CalculateCookieScore(ingredients []*Ingredient, a int, b int, c int, d int) (int64, int64) {
 
 	capacity := ingredients[0].Capacity*int64(a) + ingredients[1].Capacity*int64(b) +
 		ingredients[2].Capacity*int64(c) + ingredients[3].Capacity*int64(d)
@@ -97,10 +98,12 @@ func CalculateCookieScore(ingredients []*Ingredient, a int, b int, c int, d int)
 		ingredients[2].Flavor*int64(c) + ingredients[3].Flavor*int64(d)
 	texture := ingredients[0].Texture*int64(a) + ingredients[1].Texture*int64(b) +
 		ingredients[2].Texture*int64(c) + ingredients[3].Texture*int64(d)
+	calories := ingredients[0].Calories*int64(a) + ingredients[1].Calories*int64(b) +
+		ingredients[2].Calories*int64(c) + ingredients[3].Calories*int64(d)
 
 	if capacity < 0 || durability < 0 || flavor < 0 || texture < 0 {
-		return 0
+		return 0, 0
 	}
 
-	return capacity * durability * flavor * texture
+	return capacity * durability * flavor * texture, calories
 }
