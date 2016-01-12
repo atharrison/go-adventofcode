@@ -37,6 +37,26 @@ func (a *Aunt) Matches(properties map[string]int64) bool {
 	return true
 }
 
+func (a *Aunt) MatchesPart2(properties map[string]int64) bool {
+	for k, v := range a.Attributes {
+		switch k {
+		case "trees", "cats":
+			if properties[k] >= v {
+				return false
+			}
+		case "pomeranians", "goldfish":
+			if properties[k] <= v {
+				return false
+			}
+		default:
+			if properties[k] != v {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func ExecuteDay16(inputfile string) {
 
 	lines := readFileAsLines(inputfile)
@@ -61,11 +81,20 @@ func ExecuteDay16(inputfile string) {
 		"perfumes":    1,
 	}
 
+	// Part 1
 	for _, aunt := range aunts {
 		if aunt.Matches(properties) {
-			fmt.Printf("Matching: %v", aunt)
+			fmt.Printf("Part 1 Matching: %v\n", aunt)
 		}
 	}
+
+	// Part 2
+	for _, aunt := range aunts {
+		if aunt.MatchesPart2(properties) {
+			fmt.Printf("Part 2 Matching: %v\n", aunt)
+		}
+	}
+
 }
 
 func ProcessAuntLine(line string) *Aunt {
