@@ -2,7 +2,7 @@ package adventofcode
 
 import (
 	"fmt"
-	//	"time"
+	//		"time"
 )
 
 func ExecuteDay18(inputfile string) {
@@ -10,18 +10,11 @@ func ExecuteDay18(inputfile string) {
 	lines := readFileAsLines(inputfile)
 	grid := ParseDay18LinesToGrid(lines)
 
-	//	PrintGrid(grid)
-	//	fmt.Println("")
-	//
-	//	for {
-	//		grid = Toggle(grid)
-	//		PrintGrid(grid)
-	//		fmt.Println("")
-	//		time.Sleep(time.Second)
-	//	}
-
 	for times := 0; times < 100; times++ {
 		grid = Toggle(grid)
+		//		PrintGrid(grid)
+		//		fmt.Println("")
+		//		time.Sleep(time.Second)
 	}
 
 	onCount := CountLightsOn(grid) // From Day 6
@@ -79,6 +72,11 @@ func Toggle(grid [][]bool) [][]bool {
 
 func NewLightValueFor(grid [][]bool, x int, y int) bool {
 
+	// Part 2 addition:
+	if InGridCorner(x, y, len(grid)) {
+		return true
+	}
+
 	onNeighbors := 0
 	for xoff := -1; xoff < 2; xoff++ {
 		for yoff := -1; yoff < 2; yoff++ {
@@ -92,6 +90,14 @@ func NewLightValueFor(grid [][]bool, x int, y int) bool {
 	}
 
 	return NewLightValue(grid[x][y], onNeighbors)
+}
+
+func InGridCorner(x int, y int, size int) bool {
+	last := size - 1
+	if (x == 0 && y == 0) || (x == 0 && y == last) || (x == last && y == 0) || (x == last && y == last) {
+		return true
+	}
+	return false
 }
 
 func NewLightValue(oldValue bool, onNeighbors int) bool {
@@ -108,6 +114,12 @@ func NewLightValue(oldValue bool, onNeighbors int) bool {
 }
 
 func SafeGetGridValue(grid [][]bool, x int, y int) bool {
+
+	//Part 2 addition:
+	if InGridCorner(x, y, len(grid)) {
+		return true
+	}
+
 	var result bool
 	if x < 0 || y < 0 || x >= len(grid) || y >= len(grid) {
 		result = false
