@@ -49,7 +49,7 @@ func CalculateRibbon(inputs [][]int64) {
 		cubic := items[0] * items[1] * items[2]
 
 		small, loc := smallest(items)
-		remaining, _ := delete(items, loc)
+		remaining, _ := remove(items, loc)
 		secondSmallest, _ := smallest(remaining)
 		fmt.Printf("Items: %v, smallest: %v, second: %v, remaining: %v\n", items, small, secondSmallest, remaining)
 
@@ -99,7 +99,7 @@ func smallest(items []int64) (int64, int) {
 	return result, location
 }
 
-func delete(a []int64, i int) ([]int64, int64) {
+func remove(a []int64, i int) ([]int64, int64) {
 	deleted := a[i]
 	a[i] = a[len(a)-1]
 	a[len(a)-1] = 0
