@@ -70,9 +70,12 @@ func main() {
 	//	adventofcode.ExecuteDay18("data/day18input.txt")
 
 	//Day 19
-	adventofcode.ExecuteDay19("data/day19input.txt")
+	//adventofcode.ExecuteDay19("data/day19input.txt")
 	//		adventofcode.ExecuteDay19("data/day19input_sample1.txt")
 	//		adventofcode.ExecuteDay19("data/day19input_sample2.txt")
+
+	//Day 20
+	adventofcode.ExecuteDay20(29000000) //At least 641000
 
 	fmt.Println("\nComplete")
 }
