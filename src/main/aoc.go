@@ -75,7 +75,8 @@ func main() {
 	//		adventofcode.ExecuteDay19("data/day19input_sample2.txt")
 
 	//Day 20
-	adventofcode.ExecuteDay20(29000000) //At least 641000
+	adventofcode.ExecuteDay20(29000000)
+	// Part 2: Final: House 705600 received 29002446 presents
 
 	fmt.Println("\nComplete")
 }
