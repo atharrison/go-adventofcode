@@ -45,7 +45,7 @@ func (p *Player) EquipArmor(item Item) {
 
 func (p *Player) EquipRing(item Item) {
 	if p.Equipment.Rings == nil {
-		p.Equipment.Rings = make([]Item, 2)
+		p.Equipment.Rings = make([]Item, 0)
 	}
 	p.Equipment.Rings = append(p.Equipment.Rings, item)
 }
@@ -117,6 +117,7 @@ var Armor = []Item{
 		Bandedmail   75     0       4
 		Platemail   102     0       5
 	*/
+	Item{Name: "None", Cost: 0, Damage: 0, Armor: 0},
 	Item{Name: "Leather", Cost: 13, Damage: 0, Armor: 1},
 	Item{Name: "Chainmail", Cost: 31, Damage: 0, Armor: 2},
 	Item{Name: "Splintmail", Cost: 53, Damage: 0, Armor: 3},
@@ -151,9 +152,15 @@ func RunGamePart1() {
 
 func RunEquipmentPermutations() {
 
+	// For Part 1, calculate least cost and still win
 	battleCount := 0
-	bestCost := 999999
-	var bestRack Rack
+	//bestCost := 999999
+
+	// For Part 2, calculate most cost and still lose
+	worstCost := 0
+
+	//var bestRack Rack
+	var bestPlayer *Player
 	for armorIdx := 0; armorIdx < len(Armor); armorIdx++ {
 		for weaponIdx := 0; weaponIdx < len(Weapons); weaponIdx++ {
 			for ring1Idx := 0; ring1Idx < len(Rings); ring1Idx++ {
@@ -178,26 +185,45 @@ func RunEquipmentPermutations() {
 					},
 					}
 
-					fmt.Printf("Battle %v\n", battleCount)
-					if RunBattle(player, boss) {
+					//fmt.Printf("Battle %v, Cost %v\n", battleCount, player.EquipmentCost())
+					if !RunBattle(player, boss) { // Part 2, we lose
+						//if RunBattle(player, boss) { // Part 1, we win
 						lastCost := player.EquipmentCost()
-						if lastCost < bestCost {
-							bestCost = lastCost
-							var bestRings []Item
-							copy(bestRings, player.Equipment.Rings)
-							bestRack = Rack{
-								Armor:  player.Equipment.Armor,
-								Weapon: player.Equipment.Weapon,
-								Rings:  bestRings,
-							}
+
+						//Part 1
+						//if lastCost < bestCost {
+						//	bestCost = lastCost
+						//	var bestRings []Item
+						//	copy(bestRings, player.Equipment.Rings)
+						//	bestRack = Rack{
+						//		Armor:  player.Equipment.Armor,
+						//		Weapon: player.Equipment.Weapon,
+						//		Rings:  bestRings,
+						//	}
+						//}
+
+						//Part 2
+						if lastCost > worstCost {
+							bestPlayer = player
+							worstCost = lastCost
+							fmt.Printf("Battle %v, Worse: %v with %v\n", battleCount, worstCost, bestPlayer.Equipment)
+							//var bestRings []Item
+							//copy(bestRings, player.Equipment.Rings)
+							//bestRack = Rack{
+							//	Armor:  player.Equipment.Armor,
+							//	Weapon: player.Equipment.Weapon,
+							//	Rings:  bestRings,
+							//}
 						}
+
 					}
 					battleCount++
 				}
 			}
 		}
 	}
-	fmt.Printf("Best:\n\tCost: %v\n\tRack: %v\n", bestCost, bestRack)
+	//fmt.Printf("Best:\n\tCost: %v\n\tRack: %v\n", bestCost, bestRack)
+	fmt.Printf("Worst:\n\tCost: %v\n\tPlayerRack: %v\n", worstCost, bestPlayer.Equipment)
 }
 
 func RunBattle(player *Player, boss *Boss) bool {
@@ -205,16 +231,16 @@ func RunBattle(player *Player, boss *Boss) bool {
 	for {
 		rounds = rounds + 1
 		//fmt.Printf("Round %v\n \tBoss: %v\n\tPlayer: %v\n", rounds, boss, player)
-		dealt := player.Attack(boss)
+		_ = player.Attack(boss)
 		//fmt.Printf("\t\tPlayer dealt %v Damage\n", dealt)
 		if boss.HitPoints <= 0 {
-			fmt.Printf("Player won after %v rounds!\n", rounds)
+			//fmt.Printf("Player won after %v rounds!\n", rounds)
 			return true
 		}
-		dealt = boss.Attack(player)
-		fmt.Printf("\t\tBoss dealt %v Damage\n", dealt)
+		_ = boss.Attack(player)
+		//fmt.Printf("\t\tBoss dealt %v Damage\n", dealt)
 		if player.HitPoints <= 0 {
-			fmt.Printf("Boss won after %v rounds!\n", rounds)
+			//fmt.Printf("Boss won after %v rounds!\n", rounds)
 			return false
 		}
 	}
