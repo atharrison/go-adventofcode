@@ -81,7 +81,12 @@ func main() {
 	//Day 21
 	//adventofcode.RunGamePart1()
 
-	//Day 21
-	adventofcode.RunDay22Game()
+	//Day 22
+	//adventofcode.RunDay22Game()
+
+	//Day 23
+	//adventofcode.RunDay23("data/day23input_sample1.txt")
+	adventofcode.RunDay23("data/day23input.txt")
+
 	fmt.Println("\nComplete")
 }
