@@ -79,7 +79,9 @@ func main() {
 	// Part 2: Final: House 705600 received 29002446 presents
 
 	//Day 21
-	adventofcode.RunGamePart1()
+	//adventofcode.RunGamePart1()
 
+	//Day 21
+	adventofcode.RunDay22Game()
 	fmt.Println("\nComplete")
 }
