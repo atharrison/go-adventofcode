@@ -13,11 +13,20 @@ type TuringMachine struct {
 }
 
 func NewTuringMachine() *TuringMachine {
+	//Part 1
+	//return &TuringMachine{
+	//	Registers: make([]int, 2),
+	//	Tape:      []Instruction{},
+	//	Cursor:    0,
+	//}
+
+	//Part 2
 	return &TuringMachine{
-		Registers: make([]int, 2),
+		Registers: []int{1, 0},
 		Tape:      []Instruction{},
 		Cursor:    0,
 	}
+
 }
 
 type Instruction struct {
