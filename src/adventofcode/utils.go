@@ -225,3 +225,31 @@ func (set *IntSet) Remove(i int) {
 	}
 	//	fmt.Printf("Min/Max: [%v, %v]\n", set.Min, set.Max)
 }
+
+// Convert base 10 number, 'num' to a base 'base' number.
+// Return as array of ints, in little-endian order
+func ConvertToBase(num int64, base int64) []int {
+	var digit []int
+	for num != 0 {
+		remainder := num % base               // assume base > 1
+		num = num / base                      // integer division
+		digit = append(digit, int(remainder)) // We're going to make the array backwards on purpose...
+	}
+	return digit
+}
+
+func SumIntSlice(s []int) int {
+	total := 0
+	for _, val := range s {
+		total += val
+	}
+	return total
+}
+
+func ProductIntSlice(s []int) int {
+	prod := 1
+	for _, val := range s {
+		prod *= val
+	}
+	return prod
+}

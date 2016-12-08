@@ -261,13 +261,3 @@ func ExecuteBossTurn(wizard *Wizard, boss *Boss, round int) int {
 
 	return dealt
 }
-
-func ConvertToBase(num int64, base int64) []int {
-	var digit []int
-	for num != 0 {
-		remainder := num % base               // assume base > 1
-		num = num / base                      // integer division
-		digit = append(digit, int(remainder)) // We're going to make the array backwards on purpose...
-	}
-	return digit
-}
