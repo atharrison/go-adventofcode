@@ -30,7 +30,8 @@ func RunDay24(inputfile string) {
 		}
 		total += intVal
 	}
-	maxBucketSize = total / 3
+	//maxBucketSize = total / 3 // Part 1
+	maxBucketSize = total / 4 // Part 2
 	fmt.Printf("Total: %v, BucketSize: %v\n", total, maxBucketSize)
 
 	combinations := findBalancedCombinations(data)
@@ -47,12 +48,10 @@ func printBestQECombos(combinations []map[int][]int) {
 	for _, c := range combinations {
 		l, qe, out := getQuantumEntanglement(c)
 		//fmt.Printf("Combo: %v, %v, %v\n", l, qe, out)
-		if smallestCount == 0 || smallestCount >= l {
-			if smallestCount > l || (smallestQE == 0 || smallestQE > qe) {
-				smallestCount = l
-				smallestQE = qe
-				smallestOutput = out
-			}
+		if smallestCount == 0 || smallestCount > l || (smallestCount == l && smallestQE > qe) {
+			smallestCount = l
+			smallestQE = qe
+			smallestOutput = out
 		}
 	}
 	fmt.Printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTotal: %v\nBest: %v, %v, %v\n", len(combinations), smallestQE, smallestCount, smallestOutput)
@@ -66,6 +65,8 @@ func findBalancedCombinations(data []int) []map[int][]int {
 	buckets[0] = []int{}
 	buckets[1] = []int{}
 	buckets[2] = []int{}
+	// Part 2 adds a 4th bucket
+	buckets[3] = []int{}
 	recursiveFindBalancedCombinations(data, buckets)
 	return validCombos
 }
@@ -136,9 +137,11 @@ func validCombo(buckets map[int][]int) bool {
 	bucket0 := SumIntSlice(buckets[0])
 	bucket1 := SumIntSlice(buckets[1])
 	bucket2 := SumIntSlice(buckets[2])
+	bucket3 := SumIntSlice(buckets[3]) // Part 4
 
 	//fmt.Printf("Sums %v %v %v for Bucket %v\r", bucket0, bucket1, bucket2, buckets)
-	if bucket0 == bucket1 && bucket1 == bucket2 && bucket0 == maxBucketSize {
+	//if bucket0 == bucket1 && bucket1 == bucket2 && bucket0 == maxBucketSize { // Part 1
+	if bucket0 == bucket1 && bucket1 == bucket2 && bucket2 == bucket3 && bucket0 == maxBucketSize {
 		return true
 	}
 	return false
